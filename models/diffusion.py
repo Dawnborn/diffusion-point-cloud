@@ -70,6 +70,8 @@ class PointwiseNet(Module):
             x:  Point clouds at some timestep t, (B, N, d).
             beta:     Time. (B, ).
             context:  Shape latents. (B, F).
+        Output:
+
         """
         batch_size = x.size(0)
         beta = beta.view(batch_size, 1, 1)          # (B, 1, 1)
@@ -87,7 +89,7 @@ class PointwiseNet(Module):
         if self.residual:
             return x + out
         else:
-            return out
+            return out 
 
 
 class DiffusionPoint(Module):
@@ -106,14 +108,14 @@ class DiffusionPoint(Module):
         batch_size, _, point_dim = x_0.size()
         if t == None:
             t = self.var_sched.uniform_sample_t(batch_size)
-        alpha_bar = self.var_sched.alpha_bars[t]
-        beta = self.var_sched.betas[t]
+        alpha_bar = self.var_sched.alpha_bars[t] # (B)
+        beta = self.var_sched.betas[t] # (B)
 
         c0 = torch.sqrt(alpha_bar).view(-1, 1, 1)       # (B, 1, 1)
         c1 = torch.sqrt(1 - alpha_bar).view(-1, 1, 1)   # (B, 1, 1)
 
         e_rand = torch.randn_like(x_0)  # (B, N, d)
-        e_theta = self.net(c0 * x_0 + c1 * e_rand, beta=beta, context=context)
+        e_theta = self.net(c0 * x_0 + c1 * e_rand, beta=beta, context=context) # (B, N, d)
 
         loss = F.mse_loss(e_theta.view(-1, point_dim), e_rand.view(-1, point_dim), reduction='mean')
         return loss

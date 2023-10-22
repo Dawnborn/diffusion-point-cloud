@@ -52,13 +52,13 @@ model.load_state_dict(ckpt['state_dict'])
 all_ref = []
 all_recons = []
 for i, batch in enumerate(tqdm(test_loader)):
-    ref = batch['pointcloud'].to(args.device)
-    shift = batch['shift'].to(args.device)
-    scale = batch['scale'].to(args.device)
+    ref = batch['pointcloud'].to(args.device) # 128, 2048, 3 (batch_size, N, D)
+    shift = batch['shift'].to(args.device) # 128, 1, 3 (batch_size, 1, 3)
+    scale = batch['scale'].to(args.device) # 128, 1, 1
     model.eval()
     with torch.no_grad():
-        code = model.encode(ref)
-        recons = model.decode(code, ref.size(1), flexibility=ckpt['args'].flexibility).detach()
+        code = model.encode(ref) # 128, 256
+        recons = model.decode(code, ref.size(1), flexibility=ckpt['args'].flexibility).detach() # 128, 2048, 3
 
     ref = ref * scale + shift
     recons = recons * scale + shift

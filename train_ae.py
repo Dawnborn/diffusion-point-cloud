@@ -124,7 +124,7 @@ scheduler = get_linear_scheduler(
 def train(it):
     # Load data
     batch = next(train_iter)
-    x = batch['pointcloud'].to(args.device)
+    x = batch['pointcloud'].to(args.device) # 128, 2048, 3 (B,N,D)
 
     # Reset grad and model state
     optimizer.zero_grad()

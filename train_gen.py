@@ -40,7 +40,7 @@ parser.add_argument('--dataset_path', type=str, default='./data/shapenet.hdf5')
 parser.add_argument('--categories', type=str_list, default=['airplane'])
 parser.add_argument('--scale_mode', type=str, default='shape_unit')
 parser.add_argument('--train_batch_size', type=int, default=128)
-parser.add_argument('--val_batch_size', type=int, default=64)
+parser.add_argument('--val_batch_size', type=int, default=32)
 
 # Optimizer and scheduler
 parser.add_argument('--lr', type=float, default=2e-3)

@@ -17,7 +17,7 @@ class AutoEncoder(Module):
                 num_steps=args.num_steps,
                 beta_1=args.beta_1,
                 beta_T=args.beta_T,
-                mode=args.sched_mode
+                mode=args.sched_mode # 'linear'
             )
         )
 
@@ -26,13 +26,13 @@ class AutoEncoder(Module):
         Args:
             x:  Point clouds to be encoded, (B, N, d).
         """
-        code, _ = self.encoder(x)
+        code, _ = self.encoder(x) # only mean
         return code
 
     def decode(self, code, num_points, flexibility=0.0, ret_traj=False):
         return self.diffusion.sample(num_points, code, flexibility=flexibility, ret_traj=ret_traj)
 
     def get_loss(self, x):
-        code = self.encode(x)
+        code = self.encode(x) # 128, 256 (B, self.args.latent_dim)
         loss = self.diffusion.get_loss(x, code)
         return loss

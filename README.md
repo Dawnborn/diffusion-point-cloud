@@ -82,3 +82,21 @@ python test_gen.py --ckpt ./pretrained/GEN_airplane.pt --categories airplane
   year = {2021}
 }
 ```
+
+
+
+# My Installation
+
+## Environment
+python=3.8
+```
+conda install pytorch==1.12.1 torchvision==0.13.1 cudatoolkit=11.3 -c pytorch
+```
+```
+pip install h5py tqdm tensorboard scipy scikit-learn
+```
+
+```
+pip install six
+```
+
